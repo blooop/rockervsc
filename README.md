@@ -12,6 +12,10 @@
 [![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
 [![Pixi Badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json)](https://pixi.sh)
 
+# Intro
+
+[Rocker](https://github.com/osrf/rocker) is an alternative to docker-compose that makes it easier to run containers with access to features of the local environment and add extra capabilities to existing docker images.  I do most of my development in vscode with the devcontainers extension so this wrapper simplifies that workflow.  Rather than calling rocker and then attaching vscode, this wrapper combines those actions into one command. 
+
 ## Installation
 
 ```
@@ -50,11 +54,6 @@ rockervsc
 ```
 
 will launch and attach vscode to the container with nvidia, x11, the current user id and git set up for you.
-
-
-## Motivation
-
-[Rocker](https://github.com/osrf/rocker) is an alternative to docker-compose that makes it easier to run containers with access to features of the local environment and add extra capabilities to existing docker images.  I do most of my development in vscode with the devcontainers extension so this wrapper simplifies that workflow.  I can easily spawn a vscode instance for any project with a rockerc.yaml file and have a near native development experience with all the nice-to-haves that rocker provides but still get the benefit of isolation. 
 
 ## Caveats
 
