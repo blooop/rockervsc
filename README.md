@@ -1,17 +1,4 @@
 # rockervsc
-A template repo for python projects that is set up using [pixi](https://pixi.sh). 
-
-This has basic setup for
-
-* pylint
-* ruff
-* black
-* pytest
-* codecov
-* git-lfs
-* basic github actions ci
-* pulling updates from this template
-
 
 ## Continuous Integration Status
 
@@ -20,48 +7,55 @@ This has basic setup for
 [![GitHub issues](https://img.shields.io/github/issues/blooop/rockervsc.svg)](https://GitHub.com/blooop/rockervsc/issues/)
 [![GitHub pull-requests merged](https://badgen.net/github/merged-prs/blooop/rockervsc)](https://github.com/blooop/rockervsc/pulls?q=is%3Amerged)
 [![GitHub release](https://img.shields.io/github/release/blooop/rockervsc.svg)](https://GitHub.com/blooop/rockervsc/releases/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/rockervsc)](https://pypistats.org/packages/rockervsc)
 [![License](https://img.shields.io/github/license/blooop/rockervsc)](https://opensource.org/license/mit/)
-[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/downloads/)
 [![Pixi Badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json)](https://pixi.sh)
 
+## Installation
 
-# Install
+```
+pip install rockervsc
+```
 
-There are two methods of using this project.  
+## Usage
 
-1. Use github to use this project as a template
-2. Clone the project and run, `scripts/update_from_template.sh` and then run the "rename project" task to rename the project.
+To run rocker and automatically launch and attach a vscode instance, run this command:
 
-If you want to use docker you may want to run the `scripts/setup_host.sh` script.  It will set up docker and nvidia-docker (assuming you are on ubuntu22.04).
+```
+rockervsc 
+```
 
-If you are using pixi, you can either follow the instructions on the pixi [website](https://prefix.dev/) or run `scripts/install_pixi.sh`
+You can pass all the normal rocker arguments to rockervsc and it will forward them to rocker, e.g.:
 
+```
+rockervsc --x11 --nvidia
+```
 
-# Usage
+by default rockervsc calls [rockerc](https://github.com/blooop/rockerc) so instead of passing arguments explicitly you can have a rockerc.yaml file in your workspace
 
-There are currently two ways of running code.  The legacy docker way and the work in progress pixi way. 
+```yaml
+image: ubuntu:22.04
+args:
+  - nvidia
+  - x11 
+  - user 
+  - git 
 
-## Legacy
+```
 
-run the `scripts/launch_vscode.sh` script to build and connect to a docker container.  The docker container is dynamically generated using [rocker](https://github.com/osrf/rocker) and [deps rocker](https://github.com/blooop/deps_rocker).  [deps rocker](https://github.com/blooop/deps_rocker) looks at the rockervsc.deps.yaml file to install any required apt, pip or shell scripts and launches a container that vscode attaches to. 
+and running:
+```bash
+rockervsc
+```
 
-## Pixi
-
-If you have pixi installed on your host machine you can run any of the tasks defined in pyproject.toml.  The legacy method also installs pixi in the container so you have access to pixi there. 
-
-The main pixi tasks are related to ci.  Github actions runs the pixi task "ci".  The ci is mostly likey to fail from a lockfile mismatch.  Use the "fix" task to fix any lockfile related problems. 
-
-## vscode tasks
-
-There are two core tasks.  
-
-1. set \<cfg\> from active file
-
-    This sets \<cfg\> to the currently opened file in the editor
-
-2. run \<cfg\>
-
-    This runs python with the file set in \<cfg\>
-
+will launch and attach vscode to the container with nvidia, x11, the current user id and git set up for you.
 
 
+## Motivation
+
+[Rocker](https://github.com/osrf/rocker) is an alternative to docker-compose that makes it easier to run containers with access to features of the local environment and add extra capabilities to existing docker images.  I do most of my development in vscode with the devcontainers extension so this wrapper simplifies that workflow.  I can easily spawn a vscode instance for any project with a rockerc.yaml file and have a near native development experience with all the nice-to-haves that rocker provides but still get the benefit of isolation. 
+
+## Caveats
+
+I'm not sure this is the best way of implementing rockervsc like functionality.  It might be better to implement it as a rocker extension, or in rocker itself.  This was just the simplest way to get started. I may explore those other options in more detail in the future. 
