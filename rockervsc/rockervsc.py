@@ -3,6 +3,10 @@ import binascii
 from pathlib import Path
 from typing import Tuple
 import logging
+import subprocess
+import pathlib
+import yaml
+import sys
 
 
 def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, str]:
@@ -17,7 +21,7 @@ def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, st
     """
 
     container_hex = binascii.hexlify(container_name.encode()).decode()
-    rocker_args = f'--image-name {container_name} --name {container_name} --volume {path}:/workspaces/{container_name}:Z --oyr-run-arg " --detach"'
+    rocker_args = f'--image-name {container_name} --name {container_name} --volume {path}:/workspaces/{container_name}:Z --oyr-run-arg \'\" --detach\"\''
 
     return container_hex, rocker_args
 
@@ -40,3 +44,33 @@ def launch_vscode(container_name: str, container_hex: str):
     except subprocess.CalledProcessError as e:
         logging.error(f"Failed to launch VSCode: {e}")
         raise
+
+
+def run_rockervsc(path: str = "."):
+    """run rockerc by searching for rocker.yaml in the specified directory and passing those arguments to rocker
+
+    Args:
+        path (str, optional): Search path for rockerc.yaml files. Defaults to ".".
+    """
+
+    cwd = pathlib.Path().absolute()
+    container_name = cwd.name
+
+    subprocess.call(
+        f'docker rename {container_name} "{container_name}_$(date +%Y-%m-%d_%H-%M-%S)" || true ',
+        shell=True,
+    )
+
+    if len(sys.argv) > 1:
+        cmd_args = " ".join(sys.argv[1:])
+        cmd = f"rockerc {cmd_args}"
+    else:
+        cmd = "rockerc"
+
+    container_hex, rocker_args = folder_to_vscode_container(container_name, path)
+    cmd += f" {rocker_args}"
+
+    print(f"running cmd: {cmd}")
+    subprocess.call(cmd, shell=True)
+
+    launch_vscode(container_name, container_hex)
