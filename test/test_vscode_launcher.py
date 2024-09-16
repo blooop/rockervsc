@@ -17,7 +17,7 @@ class TestFolderToVscodeContainer:
         assert container_hex == expected_hex
         assert (
             rocker_args
-            == '--image-name test_container --name test_container --volume /some/path:/workspaces/test_container:Z --oyr-run-arg " --detach"'
+            == "--image-name test_container --name test_container --volume /some/path:/workspaces/test_container:Z --oyr-run-arg '\" --detach\"'"
         )
 
     # Handles empty container name string
@@ -30,7 +30,7 @@ class TestFolderToVscodeContainer:
 
         expected_hex = ""
         expected_rocker_args = (
-            '--image-name  --name  --volume /some/path:/workspaces/:Z --oyr-run-arg " --detach"'
+            "--image-name  --name  --volume /some/path:/workspaces/:Z --oyr-run-arg '\" --detach\"'"
         )
 
         assert container_hex == expected_hex
