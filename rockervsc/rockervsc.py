@@ -5,6 +5,7 @@ from typing import Tuple
 import logging
 import pathlib
 import sys
+import datetime
 
 
 def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, str]:
@@ -54,9 +55,14 @@ def run_rockervsc(path: str = "."):
     cwd = pathlib.Path().absolute()
     container_name = cwd.name
 
-    subprocess.call(
-        f'docker rename {container_name} "{container_name}_$(date +%Y-%m-%d_%H-%M-%S)" || true ',
-        shell=True,
+    subprocess.run(
+        [
+            "docker",
+            "rename",
+            container_name,
+            f"{container_name}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}",
+        ],
+        check=False,
     )
 
     if len(sys.argv) > 1:
