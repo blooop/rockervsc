@@ -1,12 +1,12 @@
 [project]
 name = "rockervsc"
-version = "0.2.0"
+version = "0.0.1"
 authors = [{ name = "Austin Gregg-Smith", email = "blooop@gmail.com" }]
 description = "A rocker wrapper for launching and attaching vscode to a rocker container"
 readme = "README.md"
 license = "MIT"
 
-dependencies = ["rockerc"]
+dependencies = ["rockerc>=0.3.0"]
 
 [project.urls]
 Source = "https://github.com/blooop/rockervsc"
@@ -56,6 +56,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 include= ["rockervsc"]
+
+[project.scripts]
+rockervsc = "rockervsc.rockervsc:run_rockervsc"
 
 # Environments
 [tool.pixi.environments]
