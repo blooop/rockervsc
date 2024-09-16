@@ -1491,9 +1491,9 @@ packages:
   - ruff<=0.6.4,>=0.5.0 ; extra == 'test'
 - kind: pypi
   name: rockervsc
-  version: 0.0.1
+  version: 0.2.1
   path: .
-  sha256: d31c668eeded305ef20c912da3288b10121fda0ab08a03ef281b4e5235364656
+  sha256: 5923798b010f15ccae949dd996ec176bc0d8855bc15692f13df9e93f461c26ef
   requires_dist:
   - rockerc>=0.3.0
   - black>=23,<=24.8.0 ; extra == 'test'
