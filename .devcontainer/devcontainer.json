@@ -1,5 +1,5 @@
 {
-	"name": "python_template",
+	"name": "rockervsc",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": ".."
