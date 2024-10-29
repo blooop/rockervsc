@@ -1565,9 +1565,9 @@ packages:
   name: rockervsc
   version: 0.3.2
   path: .
-  sha256: 0632fbe2e9a1d05ccc35b53ed963d8432d56759aa873de570b4b78d3bc23e829
+  sha256: 240dbcd03900a18a3786ef43a01035195730411481663fb3bf5af890fb9adce2
   requires_dist:
-  - rockerc[extensions]>=0.4.1
+  - rockerc[extensions]>=0.4.2
   - black>=23,<=24.10.0 ; extra == 'test'
   - pylint>=3.2.5,<=3.3.1 ; extra == 'test'
   - pytest-cov>=4.1,<=5.0.0 ; extra == 'test'
