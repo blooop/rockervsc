@@ -20,7 +20,8 @@ def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, st
     """
 
     container_hex = binascii.hexlify(container_name.encode()).decode()
-    rocker_args = f"--image-name {container_name} --name {container_name} --volume {path}:/workspaces/{container_name}:Z --oyr-run-arg '\" --detach\"'"
+    container_name_lower = container_name.lower()
+    rocker_args = f"--image-name {container_name} --name {container_name_lower} --volume {path}:/workspaces/{container_name_lower}:Z --oyr-run-arg '\" --detach\"'"
 
     return container_hex, rocker_args
 
