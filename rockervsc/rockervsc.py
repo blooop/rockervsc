@@ -53,7 +53,7 @@ def run_rockervsc(path: str = "."):
     """
 
     cwd = pathlib.Path().absolute()
-    container_name = cwd.name
+    container_name = cwd.name.lower()
 
     subprocess.run(
         [
