@@ -5,7 +5,6 @@ from typing import Tuple
 import logging
 import pathlib
 import sys
-import datetime
 
 
 def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, str]:
@@ -44,6 +43,7 @@ def launch_vscode(container_name: str, container_hex: str):
         logging.error(f"Failed to launch VSCode: {e}")
         raise
 
+
 def container_exists(container_name: str) -> bool:
     """
     Check if a Docker container with the specified name exists.
@@ -63,9 +63,9 @@ def container_exists(container_name: str) -> bool:
             ["docker", "ps", "-a", "--filter", f"name={container_name}", "--format", "{{.Names}}"],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
-        
+
         # Check if the container name appears in the output
         return container_name in result.stdout.splitlines()
     except subprocess.CalledProcessError as e:
@@ -82,7 +82,7 @@ def run_rockervsc(path: str = "."):
     """
 
     cwd = pathlib.Path().absolute()
-    container_name = cwd.name.lower()   
+    container_name = cwd.name.lower()
 
     if len(sys.argv) > 1:
         cmd_args = " ".join(sys.argv[1:])
