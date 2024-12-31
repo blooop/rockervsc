@@ -57,19 +57,16 @@ def container_exists(container_name: str) -> bool:
     Raises:
         RuntimeError: If an error occurs while executing the Docker command.
     """
-    try:
-        # Run the Docker command to filter containers by name
-        result = subprocess.run(
-            ["docker", "ps", "-a", "--filter", f"name={container_name}", "--format", "{{.Names}}"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
+    # Run the Docker command to filter containers by name
+    result = subprocess.run(
+        ["docker", "ps", "-a", "--filter", f"name={container_name}", "--format", "{{.Names}}"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
 
-        # Check if the container name appears in the output
-        return container_name in result.stdout.splitlines()
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Failed to execute Docker command: {e}")
+    # Check if the container name appears in the output
+    return container_name in result.stdout.splitlines()
 
 
 def run_rockervsc(path: str = "."):
@@ -93,7 +90,7 @@ def run_rockervsc(path: str = "."):
 
     if not container_exists(container_name):
         print(f"running cmd: {cmd}")
-        subprocess.run(cmd, shell=True,check=False)
+        subprocess.run(cmd, shell=True, check=False)
     else:
         print("container already running, attaching vscode to container")
     launch_vscode(container_name, container_hex)
