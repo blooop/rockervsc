@@ -93,7 +93,7 @@ def run_rockervsc(path: str = "."):
 
     if not container_exists(container_name):
         print(f"running cmd: {cmd}")
-        subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True,check=False)
     else:
         print("container already running, attaching vscode to container")
     launch_vscode(container_name, container_hex)
