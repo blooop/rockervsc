@@ -44,6 +44,35 @@ def launch_vscode(container_name: str, container_hex: str):
         logging.error(f"Failed to launch VSCode: {e}")
         raise
 
+def container_exists(container_name: str) -> bool:
+    """
+    Check if a Docker container with the specified name exists.
+
+    Args:
+        container_name (str): The name of the Docker container to check.
+
+    Returns:
+        bool: True if the container exists, False otherwise.
+
+    Raises:
+        RuntimeError: If an error occurs while executing the Docker command.
+    """
+    try:
+        # Run the Docker command to filter containers by name
+        result = subprocess.run(
+            ["docker", "ps", "-a", "--filter", f"name={container_name}", "--format", "{{.Names}}"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        # Check if the container name appears in the output
+        return container_name in result.stdout.splitlines()
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Failed to execute Docker command: {e}")
+    except Exception as e:
+        raise RuntimeError(f"An unexpected error occurred: {e}")
+
 
 def run_rockervsc(path: str = "."):
     """run rockerc by searching for rocker.yaml in the specified directory and passing those arguments to rocker
@@ -53,17 +82,7 @@ def run_rockervsc(path: str = "."):
     """
 
     cwd = pathlib.Path().absolute()
-    container_name = cwd.name.lower()
-
-    subprocess.run(
-        [
-            "docker",
-            "rename",
-            container_name,
-            f"{container_name}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}",
-        ],
-        check=False,
-    )
+    container_name = cwd.name.lower()   
 
     if len(sys.argv) > 1:
         cmd_args = " ".join(sys.argv[1:])
@@ -74,7 +93,9 @@ def run_rockervsc(path: str = "."):
     container_hex, rocker_args = folder_to_vscode_container(container_name, path)
     cmd += f" {rocker_args}"
 
-    print(f"running cmd: {cmd}")
-    subprocess.call(cmd, shell=True)
-
+    if not container_exists(container_name):
+        print(f"running cmd: {cmd}")
+        subprocess.call(cmd, shell=True)
+    else:
+        print("container already running, attaching vscode to container")
     launch_vscode(container_name, container_hex)
