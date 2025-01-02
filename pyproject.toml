@@ -6,7 +6,7 @@ description = "A rocker wrapper for launching and attaching vscode to a rocker c
 readme = "README.md"
 license = "MIT"
 
-dependencies = ["rockerc[extensions]>=0.4.2"]
+dependencies = ["rockerc[extensions]>=0.5.1"]
 
 [project.urls]
 Source = "https://github.com/blooop/rockervsc"
