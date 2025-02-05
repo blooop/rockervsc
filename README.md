@@ -24,6 +24,7 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and then i
 
 ```
 uv tool install rockervsc
+uv tool install rockerc #it can be useful to use rockerc without attaching to vscode as well
 ```
 
 ### Deprecated Method:
