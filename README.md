@@ -18,6 +18,19 @@
 
 ## Installation
 
+### Recommended Method:
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and then install it as a globally available tool on your system
+
+```
+uv tool install rockervsc
+uv tool install rockerc #it can be useful to use rockerc without attaching to vscode as well
+```
+
+### Deprecated Method:
+
+Globally install via pip, but this is not really recommended
+
 ```
 pip install rockervsc
 ```
