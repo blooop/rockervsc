@@ -18,6 +18,18 @@
 
 ## Installation
 
+### Reccomended Method:
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and then install it as a globally available tool on your system
+
+```
+uv tool install rockervsc
+```
+
+### Deprecated Method:
+
+Globally install via pip, but this is not really reccomended
+
 ```
 pip install rockervsc
 ```
