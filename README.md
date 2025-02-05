@@ -29,7 +29,7 @@ uv tool install rockerc #it can be useful to use rockerc without attaching to vs
 
 ### Deprecated Method:
 
-Globally install via pip, but this is not really reccomended
+Globally install via pip, but this is not really recommended
 
 ```
 pip install rockervsc
