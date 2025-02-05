@@ -18,7 +18,7 @@
 
 ## Installation
 
-### Reccomended Method:
+### Recommended Method:
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and then install it as a globally available tool on your system
 
