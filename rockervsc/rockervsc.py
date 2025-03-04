@@ -5,6 +5,8 @@ from typing import Tuple
 import logging
 import pathlib
 import sys
+import datetime
+import argparse
 
 
 def folder_to_vscode_container(container_name: str, path: Path) -> Tuple[str, str]:
@@ -69,18 +71,21 @@ def container_exists(container_name: str) -> bool:
     return container_name in result.stdout.splitlines()
 
 
-def run_rockervsc(path: str = "."):
+def run_rockervsc(path: str = ".", force: bool = False):
     """run rockerc by searching for rocker.yaml in the specified directory and passing those arguments to rocker
 
     Args:
         path (str, optional): Search path for rockerc.yaml files. Defaults to ".".
+        force (bool, optional): Force rename of existing container. Defaults to False.
     """
 
     cwd = pathlib.Path().absolute()
     container_name = cwd.name.lower()
 
     if len(sys.argv) > 1:
-        cmd_args = " ".join(sys.argv[1:])
+        # Filter out --force and -f arguments
+        filtered_args = [arg for arg in sys.argv[1:] if arg not in ["--force", "-f"]]
+        cmd_args = " ".join(filtered_args)
         cmd = f"rockerc {cmd_args}"
     else:
         cmd = "rockerc"
@@ -88,9 +93,44 @@ def run_rockervsc(path: str = "."):
     container_hex, rocker_args = folder_to_vscode_container(container_name, path)
     cmd += f" {rocker_args}"
 
-    if not container_exists(container_name):
+    container_exists_flag = container_exists(container_name)
+    
+    # Force flag always rebuilds container, renaming if needed
+    if force:
+        if container_exists_flag:
+            print(f"Force option enabled. Renaming existing container '{container_name}'")
+            subprocess.run(
+                [
+                    "docker",
+                    "rename",
+                    container_name,
+                    f"{container_name}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}",
+                ],
+                check=False,
+            )
         print(f"running cmd: {cmd}")
         subprocess.run(cmd, shell=True, check=False)
     else:
-        print("container already running, attaching vscode to container")
+        # Only create container if it doesn't exist
+        if not container_exists_flag:
+            print(f"running cmd: {cmd}")
+            subprocess.run(cmd, shell=True, check=False)
+        else:
+            print("container already running, attaching vscode to container")
+    
     launch_vscode(container_name, container_hex)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Run rockervsc with specified options")
+    parser.add_argument(
+        "--force", "-f", action="store_true", help="Force rename of existing container"
+    )
+    parser.add_argument("path", nargs="?", default=".", help="Search path for rockerc.yaml files")
+
+    args = parser.parse_args()
+    run_rockervsc(path=args.path, force=args.force)
+
+
+if __name__ == "__main__":
+    main()
