@@ -18,21 +18,20 @@
 
 ## Installation
 
-### Recommended Method:
-
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and then install it as a globally available tool on your system
+First, install [pipx](https://pypa.github.io/pipx/) if you don't have it already:
 
 ```
-uv tool install rockervsc
-uv tool install rockerc #it can be useful to use rockerc without attaching to vscode as well
+sudo apt update && sudo apt install -y pipx
+pipx ensurepath
 ```
 
-### Deprecated Method:
-
-Globally install via pip, but this is not really recommended
+Then install rockervsc with pipx:
 
 ```
-pip install rockervsc
+pipx install --include-deps rockervsc
+```
+
+This will install `rockervsc` ,`rockerc` and `rocker` as a globally available tool on your system. 
 ```
 
 ## Usage
@@ -70,5 +69,5 @@ will launch and attach vscode to the container with nvidia, x11, the current use
 
 ## Caveats
 
-I'm not sure this is the best way of implementing rockervsc like functionality.  It might be better to implement it as a rocker extension, or in rocker itself.  This was just the simplest way to get started. I may explore those other options in more detail in the future. 
+I'm not sure this is the best way of implementing rockervsc like functionality.  It might be better to implement it as a rocker extension, or in rocker itself.  This was just the simplest way to get started. I may explore those other options in more detail in the future.
 
