@@ -32,7 +32,6 @@ pipx install --include-deps rockervsc
 ```
 
 This will install `rockervsc` ,`rockerc` and `rocker` as a globally available tool on your system. 
-```
 
 ## Usage
 
