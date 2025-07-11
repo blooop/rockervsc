@@ -7,11 +7,11 @@
 
 image: ubuntu:22.04
 args:
-  - nvidia
+  # - nvidia
   - x11 
   - user 
   - pull 
   - deps
   - git 
-  - lazygit
+  # - lazygit
   - pixi
