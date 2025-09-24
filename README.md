@@ -31,6 +31,11 @@ Then install rockervsc with pipx:
 pipx install --include-deps rockervsc
 ```
 
+with uv
+```
+ uv tool install rockervsc --with-executables-from rockerc,rocker
+```
+
 This will install `rockervsc` ,`rockerc` and `rocker` as a globally available tool on your system. 
 
 ## Usage
